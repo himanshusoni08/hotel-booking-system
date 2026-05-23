@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .hotel-detail-container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 40px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .hotel-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .hotel-card h2 {
+        font-size: 28px;
+        color: #1e293b;
+        margin-bottom: 10px;
+    }
+
+    .hotel-card p {
+        font-size: 15px;
+        color: #475569;
+        margin: 5px 0;
+    }
+
+    .rooms-section h3 {
+        font-size: 22px;
+        color: #1e293b;
+        margin-bottom: 15px;
+    }
+
+    .room-card {
+        background: #f9fafb;
+        padding: 18px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .room-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .room-info p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .btn-book {
+        background: #2563eb;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background 0.2s ease;
+    }
+
+    .btn-book:hover {
+        background: #1d4ed8;
+    }
+</style>
+
+<div class="hotel-detail-container">
+
+    <!-- Hotel Info -->
+    <div class="hotel-card">
+        <h2>{{ hotel.name }}</h2>
+        <p><strong>Location:</strong> {{ hotel.location }}</p>
+        <p>{{ hotel.description }}</p>
+    </div>
+
+    <!-- Rooms -->
+    <div class="rooms-section">
+        <h3>Rooms</h3>
+
+        {% for room in rooms %}
+            <div class="room-card">
+                <div class="room-info">
+                    <p><strong>Room Number:</strong> {{ room.room_number }}</p>
+                    <p><strong>Type:</strong> {{ room.room_type }}</p>
+                    <p><strong>Price:</strong> ₹{{ room.price }}</p>
+                    <p><strong>Available:</strong> {{ room.is_available }}</p>
+                </div>
+                {% if room.is_available %}
+                    <a href="{% url 'create_booking' room.id %}" class="btn-book">Book Now</a>
+                {% else %}
+                    <span style="color:#b91c1c; font-weight:bold;">Unavailable</span>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No rooms added yet.</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

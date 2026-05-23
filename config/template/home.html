@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+</head>
+<body>
+    
+
+    {% extends "base.html" %}
+
+    {% block content %}
+
+    <!-- PAGE TITLE -->
+    <div style="margin-bottom: 30px;">
+        <h2 style="font-size: 28px; margin-bottom: 10px;">Find Hotels</h2>
+        <p style="color: #64748b;">Discover the best places to stay</p>
+    </div>
+
+
+    
+    <!-- SEARCH SECTION -->
+    <div class="card" style="margin-bottom: 40px;">
+        <form method="GET" style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <input 
+                type="text" 
+                name="q" 
+                placeholder="Search by name or location"
+                value="{{ query|default:'' }}"
+                style="
+                    flex: 1;
+                    padding: 12px;
+                    border-radius: 8px;
+                    border: 1px solid #e2e8f0;
+                    font-size: 14px;
+                "
+            >
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </div>
+
+    <!-- HOTEL LIST -->
+    <h3 style="margin-bottom: 20px;">Available Hotels</h3>
+
+    <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    ">
+
+    {% for hotel in hotels %}
+        <div class="card">
+            <h3 style="margin-bottom: 10px;">
+                <a href="{% url 'hotel_detail' hotel.id %}" 
+                style="text-decoration: none; color: #2563eb;">
+                    {{ hotel.name }}
+                </a>
+            </h3>
+
+            <p style="margin-bottom: 15px;">
+                📍 {{ hotel.location }}
+            </p>
+
+            <a href="{% url 'hotel_detail' hotel.id %}" class="btn">
+                View Details
+            </a>
+        </div>
+    {% empty %}
+        <div class="card">
+            <p>No hotels found.</p>
+        </div>
+    {% endfor %}
+
+    </div>
+
+    <!-- USER DASHBOARD SECTION -->
+    <div style="margin-top: 60px;">
+
+    {% if user.is_authenticated %}
+        <div class="card">
+            <h3 style="margin-bottom: 15px;">
+                Welcome, {{ user.username }}
+            </h3>
+
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                {% if user.role == "CUSTOMER" %}
+                    <a href="{% url 'my_bookings' %}" class="btn">
+                        My Bookings
+                    </a>
+                {% endif %}
+
+                {% if user.role == "OWNER" %}
+                    <a href="{% url 'hotel_list' %}" class="btn">
+                        My Hotels
+                    </a>
+
+                    <a href="{% url 'owner_bookings' %}" class="btn">
+                        Hotel Bookings
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center;">
+            <p style="margin-bottom: 15px;">Please login to book hotels.</p>
+            <a href="{% url 'login_user' %}" class="btn">Login</a>
+        </div>
+    {% endif %}
+
+    </div>
+
+    {% endblock %}
+
+</body>
+</html>

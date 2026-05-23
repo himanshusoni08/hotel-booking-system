@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin-bottom: 30px;">
+    <h2 style="font-size: 28px; margin-bottom: 5px;">My Bookings</h2>
+    <p style="color: #64748b;">Track and manage your reservations</p>
+</div>
+
+<div style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+">
+
+{% for booking in bookings %}
+    <div class="card">
+
+        <h3 style="margin-bottom: 15px;">
+            {{ booking.room.hotel.name }}
+        </h3>
+
+        <p><strong>Room:</strong> {{ booking.room.room_number }}</p>
+        <p><strong>Check-in:</strong> {{ booking.check_in }}</p>
+        <p><strong>Check-out:</strong> {{ booking.check_out }}</p>
+        <p><strong>Total Price:</strong> ₹{{ booking.total_price }}</p>
+
+        <div style="margin-top: 15px;">
+            <strong>Status:</strong>
+
+            {% if booking.status == "PENDING" %}
+                <span style="
+                    padding: 6px 10px;
+                    background: #fef9c3;
+                    color: #854d0e;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    margin-left: 5px;
+                ">
+                    Pending
+                </span>
+            {% elif booking.status == "CONFIRMED" %}
+                <span style="
+                    padding: 6px 10px;
+                    background: #dcfce7;
+                    color: #166534;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    margin-left: 5px;
+                ">
+                    Confirmed
+                </span>
+            {% elif booking.status == "CANCELLED" %}
+                <span style="
+                    padding: 6px 10px;
+                    background: #fee2e2;
+                    color: #991b1b;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    margin-left: 5px;
+                ">
+                    Cancelled
+                </span>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% empty %}
+    <div class="card" style="text-align: center;">
+        <p>You have no bookings yet.</p>
+    </div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

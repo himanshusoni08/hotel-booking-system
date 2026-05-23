@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .delete-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+    }
+
+    .delete-card {
+        width: 100%;
+        max-width: 450px;
+        padding: 25px;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .delete-card h2 {
+        color: #1e293b;
+        margin-bottom: 25px;
+        font-size: 22px;
+    }
+
+    .delete-card form {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .delete-card button,
+    .delete-card a {
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-size: 15px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        border: none;
+    }
+
+    .delete-card button {
+        background: #dc2626; /* Red for delete */
+        color: white;
+    }
+
+    .delete-card button:hover {
+        background: #b91c1c;
+    }
+
+    .delete-card a {
+        background: #6b7280; /* Gray for cancel */
+        color: white;
+        line-height: 32px;
+    }
+
+    .delete-card a:hover {
+        background: #4b5563;
+    }
+</style>
+
+<div class="delete-container">
+    <div class="delete-card">
+        <h2>Are you sure you want to delete "<strong>{{ hotel.name }}</strong>"?</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Yes, Delete</button>
+            <a href="{% url 'hotel_list' %}">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

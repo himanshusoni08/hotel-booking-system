@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+">
+
+    <div class="card" style="width: 100%; max-width: 450px;">
+
+        <h2 style="text-align: center; margin-bottom: 15px;">
+            Book Room {{ room.room_number }}
+        </h2>
+
+        <p style="text-align: center; color: #64748b; margin-bottom: 25px;">
+            Hotel: {{ room.hotel.name }} | Price per night: ₹{{ room.price }}
+        </p>
+
+        {% if error %}
+            <div class="message error" style="margin-bottom: 15px;">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+            {% csrf_token %}
+
+            <div>
+                <label style="font-size: 14px; color: #334155;">Check In</label>
+                <input 
+                    type="date" 
+                    name="check_in" 
+                    required
+                    style="
+                        width: 100%;
+                        padding: 12px;
+                        border-radius: 8px;
+                        border: 1px solid #e2e8f0;
+                        font-size: 14px;
+                        margin-top: 5px;
+                    "
+                >
+            </div>
+
+            <div>
+                <label style="font-size: 14px; color: #334155;">Check Out</label>
+                <input 
+                    type="date" 
+                    name="check_out" 
+                    required
+                    style="
+                        width: 100%;
+                        padding: 12px;
+                        border-radius: 8px;
+                        border: 1px solid #e2e8f0;
+                        font-size: 14px;
+                        margin-top: 5px;
+                    "
+                >
+            </div>
+
+            <button type="submit" class="btn" style="margin-top: 10px;">
+                Confirm Booking
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

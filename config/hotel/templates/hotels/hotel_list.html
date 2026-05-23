@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .hotel-list-container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 40px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .hotel-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hotel-card h3 {
+        font-size: 22px;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .hotel-card p {
+        font-size: 14px;
+        color: #475569;
+        margin: 0;
+    }
+
+    .hotel-card img {
+        max-width: 250px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+    .hotel-actions {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .hotel-actions a {
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        color: white;
+        transition: background 0.2s ease;
+    }
+
+    .hotel-actions a.edit {
+        background: #2563eb;
+    }
+
+    .hotel-actions a.edit:hover {
+        background: #1d4ed8;
+    }
+
+    .hotel-actions a.delete {
+        background: #dc2626;
+    }
+
+    .hotel-actions a.delete:hover {
+        background: #b91c1c;
+    }
+
+    .hotel-actions a.add-room {
+        background: #16a34a;
+    }
+
+    .hotel-actions a.add-room:hover {
+        background: #15803d;
+    }
+
+    .hotel-actions a.view-details {
+        background: #6b7280;
+    }
+
+    .hotel-actions a.view-details:hover {
+        background: #4b5563;
+    }
+</style>
+
+<div class="hotel-list-container">
+
+    {% for hotel in hotels %}
+        <div class="hotel-card">
+            <h3>{{ hotel.name }}</h3>
+            <p><strong>Location:</strong> {{ hotel.location }}</p>
+            <p>{{ hotel.description }}</p>
+
+            {% if hotel.image %}
+                <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}">
+            {% endif %}
+
+            <div class="hotel-actions">
+                <a href="{% url 'update_hotel' hotel.id %}" class="edit">Edit</a>
+                <a href="{% url 'delete_hotel' hotel.id %}" class="delete">Delete</a>
+                <a href="{% url 'create_room' hotel.id %}" class="add-room">Add Room</a>
+                <a href="{% url 'hotel_detail' hotel.id %}" class="view-details">View Details</a>
+            </div>
+        </div>
+    {% empty %}
+        <p style="text-align: center;">No hotels created yet.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
